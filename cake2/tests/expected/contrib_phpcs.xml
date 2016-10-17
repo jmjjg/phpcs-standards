@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="2.7.0">
+<file name="tests/files/AppUsesMissing1.php">
+ <error line="9" column="1" severity="error" message="Missing App::uses for extended class 'AppModel'" source="cake2.Classes.AppUses.ParentClass"/>
+</file>
+<file name="tests/files/AppUsesMissing2.php">
+ <error line="11" column="1" severity="error" message="Missing App::uses for extended class 'AppUsesMissing1'" source="cake2.Classes.AppUses.ParentClass"/>
+</file>
+</checkstyle>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ContribPHPCS" default="build" basedir=".">
+	<property name="cakephp" value="../../../../" />
+	<property name="app" value="${cakephp}/app/" />
+	<property name="build" value="${app}/tmp/build/" />
+
+	<target name="clear">
+        <delete dir="${build}" verbose="true" />
+	</target>
+
+	<target name="clean" depends="clear">
+		<mkdir dir="${build}" />
+	</target>
+
+	<target name="build" depends="clean">
+		<exec executable="vendors/bin/phpcs" dir="${cakephp}" failonerror="false" output="${build}/contrib_phpcs.xml">
+			<arg line="--standard=${basedir}/ruleset.xml
+                       --report=checkstyle
+                       ${basedir}/tests/files/"
+			/>
+		</exec>
+
+		<replaceregexp file="${build}/contrib_phpcs.xml"
+					   match="name=&quot;.*/tests/files/"
+					   replace="name=&quot;tests/files/"
+                       flags="g"/>
+
+		<exec executable="diff" dir="${app}" failonerror="true">
+			<arg line="${basedir}/tests/expected/contrib_phpcs.xml tmp/build/contrib_phpcs.xml" />
+		</exec>
+	</target>
+</project>

@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<ruleset name="phpcs">
+	<description>Contrib for a CakePHP 2.x.x install</description>
+	<!-- All rules in ./Sniffs are included automatically -->
+</ruleset>
