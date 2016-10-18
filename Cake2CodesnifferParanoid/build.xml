@@ -14,9 +14,10 @@
 		<property name="result" value="${build}/cake2_codesniffer_paranoid.xml" />
 		<property name="expected" value="tests/expected/cake2_codesniffer_paranoid.xml" />
 
-		<exec executable="phpcs" failonerror="false" output="${result}">
+		<exec executable="phpcs" failonerror="false">
 			<arg line="--standard=${basedir}/ruleset.xml
-                       --report=checkstyle
+                       --report=source
+					   --report-checkstyle=${result}
                        ${basedir}/tests/files/"
 			/>
 		</exec>
@@ -37,9 +38,10 @@
 	</target>
 
 	<target name="checkstyle" depends="clean">
-		<exec executable="phpcs" failonerror="false" output="${build}/checkstyle.xml">
+		<exec executable="phpcs" failonerror="false">
 			<arg line="--standard=PSR2
-                       --report=checkstyle
+                       --report=source
+					   --report-checkstyle=${build}/checkstyle.xml
 					   --extensions=php
 					   --ignore=**/tests/**
                        ${basedir}"

@@ -10,3 +10,4 @@
  <error line="22" column="23" severity="error" message="Missing App::uses for extended class 'AppModel'" source="Cake2CodesnifferParanoid.Classes.AppUses.ParentClass"/>
 </file>
 </checkstyle>
+
