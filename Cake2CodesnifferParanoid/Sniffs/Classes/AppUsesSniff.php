@@ -1,5 +1,5 @@
 <?php
-class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
+class Cake2CodesnifferParanoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
 {
 	public $supportedTokenizers = array( 'PHP' );
 

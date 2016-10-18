@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="ContribPHPCS" default="build" basedir=".">
-	<property name="cakephp" value="../../../../" />
-	<property name="app" value="${cakephp}/app/" />
-	<property name="build" value="${app}/tmp/build/" />
-	<property name="result" value="${build}/contrib_phpcs.xml" />
+<project name="Cake2CodesnifferParanoid" default="build" basedir=".">
+	<property name="build" value="tmp/build" />
 
 	<target name="clear">
         <delete dir="${build}" verbose="true" />
@@ -13,8 +10,11 @@
 		<mkdir dir="${build}" />
 	</target>
 
-	<target name="build" depends="clean">
-		<exec executable="vendors/bin/phpcs" dir="${cakephp}" failonerror="false" output="${result}">
+	<target name="unit_tests" depends="clean">
+		<property name="result" value="${build}/cake2_codesniffer_paranoid.xml" />
+		<property name="expected" value="tests/expected/cake2_codesniffer_paranoid.xml" />
+
+		<exec executable="phpcs" failonerror="false" output="${result}">
 			<arg line="--standard=${basedir}/ruleset.xml
                        --report=checkstyle
                        ${basedir}/tests/files/"
@@ -31,8 +31,10 @@
 					   replace="version=&quot;2.x.x&quot;"
                        flags="g"/>
 
-		<exec executable="diff" dir="${app}" failonerror="true">
-			<arg line="${basedir}/tests/expected/contrib_phpcs.xml tmp/build/contrib_phpcs.xml" />
+		<exec executable="diff" failonerror="true">
+			<arg line="${expected} ${result}" />
 		</exec>
 	</target>
+
+	<target name="build" depends="clean,unit_tests" />
 </project>
