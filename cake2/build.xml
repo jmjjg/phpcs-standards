@@ -3,6 +3,7 @@
 	<property name="cakephp" value="../../../../" />
 	<property name="app" value="${cakephp}/app/" />
 	<property name="build" value="${app}/tmp/build/" />
+	<property name="result" value="${build}/contrib_phpcs.xml" />
 
 	<target name="clear">
         <delete dir="${build}" verbose="true" />
@@ -13,16 +14,21 @@
 	</target>
 
 	<target name="build" depends="clean">
-		<exec executable="vendors/bin/phpcs" dir="${cakephp}" failonerror="false" output="${build}/contrib_phpcs.xml">
+		<exec executable="vendors/bin/phpcs" dir="${cakephp}" failonerror="false" output="${result}">
 			<arg line="--standard=${basedir}/ruleset.xml
                        --report=checkstyle
                        ${basedir}/tests/files/"
 			/>
 		</exec>
 
-		<replaceregexp file="${build}/contrib_phpcs.xml"
+		<replaceregexp file="${result}"
 					   match="name=&quot;.*/tests/files/"
 					   replace="name=&quot;tests/files/"
+                       flags="g"/>
+
+		<replaceregexp file="${result}"
+					   match="version=&quot;2.[0-9].[0-9]&quot;"
+					   replace="version=&quot;2.x.x&quot;"
                        flags="g"/>
 
 		<exec executable="diff" dir="${app}" failonerror="true">
