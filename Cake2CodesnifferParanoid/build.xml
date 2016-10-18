@@ -36,5 +36,16 @@
 		</exec>
 	</target>
 
-	<target name="build" depends="clean,unit_tests" />
+	<target name="checkstyle" depends="clean">
+		<exec executable="phpcs" failonerror="false" output="${build}/checkstyle.xml">
+			<arg line="--standard=PSR2
+                       --report=checkstyle
+					   --extensions=php
+					   --ignore=**/tests/**
+                       ${basedir}"
+			/>
+		</exec>
+	</target>
+
+	<target name="build" depends="clean,unit_tests,checkstyle" />
 </project>
