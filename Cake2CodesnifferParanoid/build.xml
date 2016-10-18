@@ -47,5 +47,6 @@
 		</exec>
 	</target>
 
-	<target name="build" depends="clean,unit_tests,checkstyle" />
+	<target name="build" depends="clean,unit_tests" />
+	<target name="quality" depends="clean,unit_tests,checkstyle" />
 </project>
