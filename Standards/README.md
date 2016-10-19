@@ -1,8 +1,8 @@
-= CakePHP 2.x.x PHPCheckStyle Sniffs
+= CakePHP 2.x.x CodeSniffer Standards
 
-- Classes/AppUses: checks that every extended class get an App::uses call for it,
-except when extending previously defined classes in the file or classes defined
-by the SPL or the Exception class.
+- Cake2CodesnifferParanoid/Classes/AppUses: checks that every extended class gets
+an App::uses call for it, except when extending previously defined classes in the
+file or classes defined by the SPL or the Exception class.
 
 == Tests
 
