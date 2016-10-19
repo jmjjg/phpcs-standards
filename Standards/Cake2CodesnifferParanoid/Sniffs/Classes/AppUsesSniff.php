@@ -12,13 +12,6 @@
 class Cake2CodesnifferParanoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
 {
     /**
-     * A list of tokenizers this sniff supports.
-     *
-     * @var array
-     */
-    public $supportedTokenizers = array( 'PHP' );
-
-    /**
      * A list of currently available class names.
      *
      * @var array
