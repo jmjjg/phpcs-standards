@@ -4,6 +4,7 @@
 	<property name="api" value="${build}/api" />
 	<property name="logs" value="${build}/logs" />
 	<property name="phpcb" value="${build}/phpcb" />
+	<property name="unit_tests" value="${build}/unit_tests" />
 
 	<target name="php-lint">
 		<apply executable="php" failonerror="on" logerror="on">
@@ -31,10 +32,11 @@
 		<mkdir dir="${build}" />
 		<mkdir dir="${api}" />
 		<mkdir dir="${logs}" />
+		<mkdir dir="${unit_tests}" />
 	</target>
 
 	<target name="unit_tests" depends="clean">
-		<property name="result" value="${build}/cake2_codesniffer_paranoid.xml" />
+		<property name="result" value="${unit_tests}/cake2_codesniffer_paranoid.xml" />
 		<property name="expected" value="tests/expected/cake2_codesniffer_paranoid.xml" />
 
 		<exec executable="phpcs" failonerror="false">
