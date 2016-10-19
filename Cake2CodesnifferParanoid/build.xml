@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Cake2CodesnifferParanoid" default="build" basedir=".">
 	<property name="build" value="tmp/build" />
+	<property name="api" value="${build}/api" />
+	<property name="logs" value="${build}/logs" />
+	<property name="phpcb" value="${build}/phpcb" />
+
+	<target name="php-lint">
+		<apply executable="php" failonerror="on" logerror="on">
+			<arg line="-l"/>
+			<fileset dir="." includes="**/*.php" />
+		</apply>
+	</target>
+
+	<target name="xml-lint">
+		<apply executable="xmllint" failonerror="on" logerror="on">
+			<arg line="--noout"/>
+			<fileset
+				dir="."
+				includes="**/*.xml,**/*.xsl"/>
+		</apply>
+	</target>
+
+	<target name="lint" depends="php-lint,xml-lint" />
 
 	<target name="clear">
         <delete dir="${build}" verbose="true" />
@@ -8,6 +29,8 @@
 
 	<target name="clean" depends="clear">
 		<mkdir dir="${build}" />
+		<mkdir dir="${api}" />
+		<mkdir dir="${logs}" />
 	</target>
 
 	<target name="unit_tests" depends="clean">
@@ -16,7 +39,6 @@
 
 		<exec executable="phpcs" failonerror="false">
 			<arg line="--standard=${basedir}/ruleset.xml
-                       --report=source
 					   --report-checkstyle=${result}
                        ${basedir}/tests/files/"
 			/>
@@ -37,18 +59,58 @@
 		</exec>
 	</target>
 
-	<target name="checkstyle" depends="clean">
+	<target name="phpcs" depends="clean">
 		<exec executable="phpcs" failonerror="false">
 			<arg line="--standard=PSR2
                        --report=source
-					   --report-checkstyle=${build}/checkstyle.xml
+					   --report-checkstyle=${logs}/phpcs.xml
 					   --extensions=php
-					   --ignore=**/tests/**
+					   --ignore=**/tests/**,**/tmp/**
                        ${basedir}"
 			/>
 		</exec>
 	</target>
 
-	<target name="build" depends="clean,unit_tests" />
-	<target name="quality" depends="clean,unit_tests,checkstyle" />
+	<target name="phpmd" depends="clean">
+		<exec executable="phpmd" failonerror="false">
+			<arg line="Sniffs
+                       xml
+                       cleancode,codesize,design,naming,unusedcode
+					   --exclude */tests/files/*,*/tmp/*
+                       --suffixes=.php
+                       --reportfile ${logs}/phpmd.xml" />
+		</exec>
+	</target>
+
+	<target name="phpcpd" depends="clean">
+		<exec executable="phpcpd" failonerror="false">
+			<arg line="--log-pmd ${logs}/phpcpd.xml
+				--names *.php
+                --exclude */tests/files/*,*/tmp/*
+				." />
+		</exec>
+	</target>
+
+	<target name="phpdoc" depends="clean">
+		<exec executable="phpdoc" failonerror="false">
+			<arg line="--title '${name}'
+				-t ${api}
+				-i */tests/files/*,*/tmp/*
+				-d ."/>
+			</exec>
+	</target>
+
+	<target name="phpcb" depends="clean">
+		<exec executable="phpcb" failonerror="false">
+			<arg line="--log ${logs}
+				--source .
+				-E /\/(tests\/files|tmp)\//
+				--output ${phpcb}
+				--crapThreshold=10
+			." />
+		</exec>
+	</target>
+
+	<target name="build" depends="clean,lint,unit_tests" />
+	<target name="quality" depends="clean,lint,unit_tests,phpcs,phpmd,phpcpd,phpdoc,phpcb" />
 </project>
