@@ -15,6 +15,8 @@ class Cake2CodesnifferParanoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSn
      * A list of currently available class names.
      * A first key is set for the file, a second key for the class name.
      *
+     * Manipulate through the isAvailable and addAvailable methods.
+     *
      * @var array
      */
     protected $available = array();
@@ -39,7 +41,7 @@ class Cake2CodesnifferParanoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSn
      * @param string $classname The class name
      * @return boolean
      */
-    public function isAvailable(PHP_CodeSniffer_File $phpcsFile, $classname)
+    protected function isAvailable(PHP_CodeSniffer_File $phpcsFile, $classname)
     {
         $filename = $phpcsFile->getFilename();
         return true === isset($this->available[$filename][$classname]);
@@ -52,7 +54,7 @@ class Cake2CodesnifferParanoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSn
      * @param string $classname The class name
      * @return boolean
      */
-    public function addAvailable(PHP_CodeSniffer_File $phpcsFile, $classname)
+    protected function addAvailable(PHP_CodeSniffer_File $phpcsFile, $classname)
     {
         $filename = $phpcsFile->getFilename();
         $this->available[$filename][$classname] = $classname;
