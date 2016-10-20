@@ -1,7 +1,15 @@
+<?=App::uses('Group', 'Model')?>
 <?php
 /**
  *
  */
+
+/**
+ *
+ */
+class User extends AppModel
+{
+}
 
 /**
  *
