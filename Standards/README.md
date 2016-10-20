@@ -1,24 +1,24 @@
-= CakePHP 2.x.x CodeSniffer Standards
+# CakePHP 2.x.x CodeSniffer Standards
 
 - Cake2CodesnifferParanoid/Classes/AppUses: checks that every extended class gets
 an App::uses call for it, except when extending previously defined classes in the
 file or classes defined by the SPL or the Exception class.
 
-== Tests
+## Tests
 
 ```bash
 ant build
 ```
 
-== Quality
+## Quality
 
 ```bash
 ant quality
 ```
 
-== Info
+## Info
 
-=== Memory problems
+### Memory problems
 
 ```bash
 vendors/bin/phpcs --standard=app/Contrib/phpcs/Cake2CodesnifferParanoid/ruleset.xml --report=checkstyle app
@@ -26,8 +26,8 @@ PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to all
 vendors/bin/phpcs -d memory_limit=512M --standard=app/Contrib/phpcs/Cake2CodesnifferParanoid/ruleset.xml --report=checkstyle app
 ```
 
-== To-do list
+## To-do list
 
-== @see
+## @see
 
 - https://pear.php.net/package/PHP_CodeSniffer/docs/2.7.0/
