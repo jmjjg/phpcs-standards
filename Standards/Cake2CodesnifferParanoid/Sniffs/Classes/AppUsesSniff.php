@@ -7,7 +7,9 @@
  */
 
 /**
- * The Cake2CodesnifferParanoid_Sniffs_Classes_AppUsesSniff class...
+ * The Cake2CodesnifferParanoid_Sniffs_Classes_AppUsesSniff class provides a sniff
+ * for checking that every class in a CakePHP 2.x file has access to the parent
+ * class, either directly or through an App::uses call (the type is not checked).
  */
 class Cake2CodesnifferParanoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
 {
