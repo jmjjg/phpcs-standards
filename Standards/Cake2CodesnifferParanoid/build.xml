@@ -96,7 +96,7 @@
 
 	<target name="phpdoc" depends="clean">
 		<exec executable="phpdoc" failonerror="false">
-			<arg line="--title '${name}'
+			<arg line="--title '${ant.project.name}'
 				-t ${api}
 				-i */tests/files/*,*/tmp/*
 				-d ."/>
