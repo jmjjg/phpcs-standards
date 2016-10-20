@@ -9,5 +9,8 @@
 <file name="tests/files/AppUsesMissing3.php">
  <error line="22" column="23" severity="error" message="Missing App::uses for extended class 'AppModel'" source="Cake2CodesnifferParanoid.Classes.AppUses.ParentClass"/>
 </file>
+<file name="tests/files/AppUsesMissing5.php">
+ <error line="13" column="42" severity="error" message="Missing App::uses for extended class 'AppUsesFinalMissing5'" source="Cake2CodesnifferParanoid.Classes.AppUses.ParentClass"/>
+</file>
 </checkstyle>
 
