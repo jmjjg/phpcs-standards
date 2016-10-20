@@ -63,8 +63,9 @@
 
 	<target name="phpcs" depends="clean">
 		<exec executable="phpcs" failonerror="false">
-			<arg line="--standard=PSR2
-                       --report=source
+			<arg line="--standard=phpcs.xml
+                       --runtime-set testVersion 5.3-7.0
+					   --report=source
 					   --report-checkstyle=${logs}/phpcs.xml
 					   --extensions=php
 					   --ignore=**/tests/**,**/tmp/**
