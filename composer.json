@@ -1,0 +1,21 @@
+{
+  "name" : "jmjjg/phpcs-standards",
+  "description" : "Custom standards for PHP and CakePHP",
+  "require" : {
+    "php" : ">=5.3",
+    "ext-tokenizer" : "*",
+    "squizlabs/php_codesniffer" : "~2.0"
+  },
+  "license" : "MIT",
+  "keywords" : [ "cakephp", "phpcs", "standards" ],
+  "type" : "phpcodesniffer-standard",
+  "support" : {
+    "issues" : "https://github.com/jmjjg/phpcs-standards/issues",
+    "source" : "https://github.com/jmjjg/phpcs-standards"
+  },
+  "authors" : [ {
+    "name" : "Christian Buffin",
+    "role" : "lead"
+  } ],
+  "homepage" : "https://github.com/jmjjg/phpcs-standards"
+}
