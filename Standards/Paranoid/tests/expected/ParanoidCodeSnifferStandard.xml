@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="2.x.x">
+<file name="tests/files/file1.php">
+ <error line="5" column="1" severity="error" message="Each class must be in a namespace of at least one level (a top-level vendor name)" source="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
+ <error line="13" column="9" severity="error" message="The var keyword must not be used to declare a property" source="PSR2.Classes.PropertyDeclaration.VarUsed"/>
+ <error line="13" column="9" severity="error" message="Visibility must be declared on property &quot;$x&quot;" source="PSR2.Classes.PropertyDeclaration.ScopeMissing"/>
+ <error line="13" column="9" severity="error" message="Scope modifier not specified for member variable &quot;$x&quot;" source="Squiz.Scope.MemberVarScope.Missing"/>
+ <error line="19" column="6" severity="error" message="Missing @throws tag in function comment" source="Squiz.Commenting.FunctionCommentThrowTag.Missing"/>
+ <error line="20" column="5" severity="error" message="Visibility must be declared on method &quot;foo&quot;" source="Squiz.Scope.MethodScope.Missing"/>
+ <error line="23" column="14" severity="error" message="A cast statement must not be followed by a space" source="Generic.Formatting.NoSpaceAfterCast.SpaceFound"/>
+ <error line="25" column="9" severity="error" message="Empty IF statement detected" source="Generic.CodeAnalysis.EmptyStatement.DetectedIF"/>
+ <error line="29" column="9" severity="error" message="Echoed strings should not be bracketed" source="Squiz.Strings.EchoedStrings.HasBracket"/>
+ <error line="33" column="20" severity="error" message="Using a call-time pass-by-reference is deprecated since PHP 5.3 and prohibited since PHP 5.4" source="PHPCompatibility.PHP.ForbiddenCallTimePassByReference.NotAllowed"/>
+</file>
+</checkstyle>
+

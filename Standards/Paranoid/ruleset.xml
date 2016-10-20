@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<ruleset name="ParanoidCodeSnifferStandard">
+	<description>Coding standard for PHP, which uses full PHPCompatibility and
+PSR-2 standards, some rules from Generic and Squiz standards.</description>
+
+	<rule ref="Generic.CodeAnalysis"/>
+	<rule ref="Generic.Files.ByteOrderMark"/>
+	<rule ref="Generic.Formatting.NoSpaceAfterCast"/>
+	<rule ref="Generic.PHP">
+		<!-- PSR-2 incompatible ? -->
+		<exclude name="Generic.PHP.ClosingPHPTag.NotFound"/>
+		<exclude name="Generic.PHP.UpperCaseConstant"/>
+		<exclude name="Generic.PHP.LowerCaseConstant.Found"/>
+	</rule>
+
+	<rule ref="PHPCompatibility"/>
+
+	<rule ref="PSR2" />
+
+	<rule ref="Squiz.Commenting.FunctionCommentThrowTag"/>
+	<rule ref="Squiz.Scope"/>
+	<rule ref="Squiz.Strings.EchoedStrings"/>
+</ruleset>

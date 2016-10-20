@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ParanoidCodeSnifferStandard" default="build" basedir=".">
+	<property name="build" value="tmp/build" />
+	<property name="unit_tests" value="${build}/unit_tests" />
+
+	<target name="xml-lint">
+		<apply executable="xmllint" failonerror="on" logerror="on">
+			<arg line="--noout"/>
+			<fileset
+				dir="."
+				includes="**/*.xml,**/*.xsl"/>
+		</apply>
+	</target>
+
+	<target name="lint" depends="xml-lint" />
+
+	<target name="clear">
+        <delete dir="${build}" verbose="true" />
+	</target>
+
+	<target name="clean" depends="clear">
+		<mkdir dir="${build}" />
+		<mkdir dir="${unit_tests}" />
+	</target>
+
+	<target name="unit_tests" depends="lint,clean">
+		<property name="result" value="${unit_tests}/${ant.project.name}.xml" />
+		<property name="expected" value="tests/expected/${ant.project.name}.xml" />
+
+		<exec executable="phpcs" failonerror="false">
+			<arg line="--standard=${basedir}/ruleset.xml
+					   --report-checkstyle=${result}
+                       ${basedir}/tests/files/"
+			/>
+		</exec>
+
+		<replaceregexp file="${result}"
+					   match="name=&quot;.*/tests/files/"
+					   replace="name=&quot;tests/files/"
+                       flags="g"/>
+
+		<replaceregexp file="${result}"
+					   match="version=&quot;2.[0-9].[0-9]&quot;"
+					   replace="version=&quot;2.x.x&quot;"
+                       flags="g"/>
+
+		<exec executable="diff" failonerror="true">
+			<arg line="${expected} ${result}" />
+		</exec>
+	</target>
+
+	<target name="build" depends="clean,lint,unit_tests" />
+</project>
