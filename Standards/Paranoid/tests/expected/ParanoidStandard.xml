@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="2.x.x">
-<file name="tests/files/file1.php">
- <error line="19" column="9" severity="error" message="The var keyword must not be used to declare a property" source="PSR2.Classes.PropertyDeclaration.VarUsed"/>
- <error line="19" column="9" severity="error" message="Visibility must be declared on property &quot;$x&quot;" source="PSR2.Classes.PropertyDeclaration.ScopeMissing"/>
- <error line="19" column="9" severity="error" message="Scope modifier not specified for member variable &quot;$x&quot;" source="Squiz.Scope.MemberVarScope.Missing"/>
- <error line="26" column="6" severity="error" message="Missing @throws tag in function comment" source="Squiz.Commenting.FunctionCommentThrowTag.Missing"/>
- <error line="27" column="5" severity="warning" message="The method parameter $bar is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
- <error line="27" column="5" severity="error" message="Visibility must be declared on method &quot;foo&quot;" source="Squiz.Scope.MethodScope.Missing"/>
- <error line="27" column="34" severity="error" message="Opening brace should be on a new line" source="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>
- <error line="29" column="14" severity="error" message="A cast statement must not be followed by a space" source="Generic.Formatting.NoSpaceAfterCast.SpaceFound"/>
- <error line="32" column="9" severity="error" message="Empty IF statement detected" source="Generic.CodeAnalysis.EmptyStatement.DetectedIF"/>
- <error line="37" column="9" severity="warning" message="This FOR loop can be simplified to a WHILE loop" source="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop.CanSimplify"/>
- <error line="37" column="9" severity="error" message="Empty FOR statement detected" source="Generic.CodeAnalysis.EmptyStatement.DetectedFOR"/>
- <error line="43" column="9" severity="warning" message="Avoid function calls in a FOR loop test part" source="Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed"/>
- <error line="48" column="9" severity="warning" message="Loop incrementor ($i) jumbling with inner loop" source="Generic.CodeAnalysis.JumbledIncrementer.Found"/>
- <error line="55" column="9" severity="warning" message="Avoid IF statements that are always true or false" source="Generic.CodeAnalysis.UnconditionalIfStatement.Found"/>
- <error line="55" column="9" severity="error" message="Empty IF statement detected" source="Generic.CodeAnalysis.EmptyStatement.DetectedIF"/>
- <error line="60" column="9" severity="error" message="Echoed strings should not be bracketed" source="Squiz.Strings.EchoedStrings.HasBracket"/>
- <error line="66" column="20" severity="error" message="Using a call-time pass-by-reference is deprecated since PHP 5.3 and prohibited since PHP 5.4" source="PHPCompatibility.PHP.ForbiddenCallTimePassByReference.NotAllowed"/>
- <error line="69" column="1" severity="error" message="The closing brace for the class must go on the next line after the body" source="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody"/>
- <error line="71" column="7" severity="error" message="Each class must be in a file by itself" source="PSR1.Classes.ClassDeclaration.MultipleClasses"/>
- <error line="75" column="5" severity="warning" message="Unnecessary FINAL modifier in FINAL class" source="Generic.CodeAnalysis.UnnecessaryFinalModifier.Found"/>
- <error line="75" column="33" severity="error" message="Opening brace should be on a new line" source="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>
- <error line="80" column="12" severity="warning" message="Possible useless method overriding detected" source="Generic.CodeAnalysis.UselessOverridingMethod.Found"/>
- <error line="80" column="45" severity="error" message="Opening brace should be on a new line" source="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>
- <error line="84" column="1" severity="error" message="The closing brace for the class must go on the next line after the body" source="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody"/>
+<file name="tests/files/PHPCompatibility.php">
+ <error line="18" column="1" severity="error" message="PHP syntax error: Call-time pass-by-reference has been removed" source="Generic.PHP.Syntax.PHPSyntax"/>
+ <error line="18" column="20" severity="error" message="Using a call-time pass-by-reference is deprecated since PHP 5.3 and prohibited since PHP 5.4" source="PHPCompatibility.PHP.ForbiddenCallTimePassByReference.NotAllowed"/>
+ <error line="21" column="16" severity="error" message="Function split() has been deprecated" source="Generic.PHP.DeprecatedFunctions.Deprecated"/>
+ <error line="21" column="16" severity="error" message="The use of function split is discouraged from PHP version 5.3 and forbidden from PHP version 7.0; use preg_split instead" source="PHPCompatibility.PHP.DeprecatedFunctions"/>
+ <error line="27" column="1" severity="warning" message="Possible use of ASP style opening tags detected. Needs manual inspection. Found: &lt;%&#10;" source="Generic.PHP.DisallowAlternativePHPTags.MaybeASPOpenTagFound"/>
+ <error line="27" column="1" severity="warning" message="Possible use of ASP style opening tags detected. ASP style opening tags have been removed in PHP 7.0. Found: &lt;%" source="PHPCompatibility.PHP.RemovedAlternativePHPTags.MaybeASPOpenTagFound"/>
+</file>
+<file name="tests/files/Squiz.php">
+ <error line="16" column="9" severity="error" message="Scope modifier not specified for member variable &quot;$var&quot;" source="Squiz.Scope.MemberVarScope.Missing"/>
+ <error line="19" column="5" severity="error" message="Visibility must be declared on method &quot;foo&quot;" source="Squiz.Scope.MethodScope.Missing"/>
+ <error line="25" column="6" severity="error" message="Missing @throws tag in function comment" source="Squiz.Commenting.FunctionCommentThrowTag.Missing"/>
+</file>
+<file name="tests/files/Generic.php">
+ <error line="23" column="9" severity="error" message="Empty IF statement detected" source="Generic.CodeAnalysis.EmptyStatement.DetectedIF"/>
+ <error line="29" column="9" severity="warning" message="This FOR loop can be simplified to a WHILE loop" source="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop.CanSimplify"/>
+ <error line="35" column="9" severity="warning" message="Avoid function calls in a FOR loop test part" source="Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed"/>
+ <error line="40" column="9" severity="warning" message="Loop incrementor ($i) jumbling with inner loop" source="Generic.CodeAnalysis.JumbledIncrementer.Found"/>
+ <error line="47" column="9" severity="warning" message="Avoid IF statements that are always true or false" source="Generic.CodeAnalysis.UnconditionalIfStatement.Found"/>
+ <error line="61" column="12" severity="warning" message="Unnecessary FINAL modifier in FINAL class" source="Generic.CodeAnalysis.UnnecessaryFinalModifier.Found"/>
+ <error line="67" column="12" severity="warning" message="The method parameter $c is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
+ <error line="73" column="12" severity="warning" message="Possible useless method overriding detected" source="Generic.CodeAnalysis.UselessOverridingMethod.Found"/>
+ <error line="81" column="9" severity="error" message="Inline control structures are not allowed" source="Generic.ControlStructures.InlineControlStructure.NotAllowed"/>
+ <error line="94" column="12" severity="error" message="PHP4 style constructors are not allowed; use &quot;__construct()&quot; instead" source="Generic.NamingConventions.ConstructorName.OldStyle"/>
+ <error line="97" column="19" severity="error" message="Use of the backtick operator is forbidden" source="Generic.PHP.BacktickOperator.Found"/>
+ <error line="97" column="26" severity="error" message="Use of the backtick operator is forbidden" source="Generic.PHP.BacktickOperator.Found"/>
+ <error line="107" column="8" severity="error" message="The use of function sizeof() is forbidden; use count() instead" source="Generic.PHP.ForbiddenFunctions.FoundWithAlternative"/>
+ <error line="110" column="5" severity="warning" message="Silencing errors is discouraged" source="Generic.PHP.NoSilencedErrors.Discouraged"/>
+ <error line="115" column="5" severity="error" message="Use the PHP_SAPI constant instead of calling php_sapi_name()" source="Generic.PHP.SAPIUsage.FunctionFound"/>
+ <error line="120" column="15" severity="error" message="String concat is not required here; use a single string instead" source="Generic.Strings.UnnecessaryStringConcat.Found"/>
 </file>
 </checkstyle>
 

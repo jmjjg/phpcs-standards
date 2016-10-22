@@ -31,6 +31,8 @@
 		<exec executable="phpcs" failonerror="false">
 			<arg line="--standard=${basedir}/ruleset.xml
 					   --report-checkstyle=${result}
+					   --runtime-set testVersion 5.3-7.0
+					   --extensions=php,ctp
                        ${basedir}/tests/files/"
 			/>
 		</exec>
