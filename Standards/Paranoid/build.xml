@@ -2,6 +2,7 @@
 <project name="ParanoidCodeSnifferStandard" default="build" basedir=".">
 	<property name="build" value="tmp/build" />
 	<property name="unit_tests" value="${build}/unit_tests" />
+	<property name="phpcb" value="${build}/phpcb" />
 
 	<target name="xml-lint">
 		<apply executable="xmllint" failonerror="on" logerror="on">
@@ -49,5 +50,12 @@
 		</exec>
 	</target>
 
+	<target name="phpcb" depends="clean">
+		<exec executable="phpcb" failonerror="false">
+			<arg line="--log ${unit_tests}/ --output ${phpcb}" />
+		</exec>
+	</target>
+
 	<target name="build" depends="clean,lint,unit_tests" />
+	<target name="quality" depends="build,phpcb" />
 </project>

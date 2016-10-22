@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="2.x.x">
 <file name="tests/files/file1.php">
- <error line="5" column="1" severity="error" message="Each class must be in a namespace of at least one level (a top-level vendor name)" source="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
- <error line="13" column="9" severity="error" message="The var keyword must not be used to declare a property" source="PSR2.Classes.PropertyDeclaration.VarUsed"/>
- <error line="13" column="9" severity="error" message="Visibility must be declared on property &quot;$x&quot;" source="PSR2.Classes.PropertyDeclaration.ScopeMissing"/>
- <error line="13" column="9" severity="error" message="Scope modifier not specified for member variable &quot;$x&quot;" source="Squiz.Scope.MemberVarScope.Missing"/>
- <error line="19" column="6" severity="error" message="Missing @throws tag in function comment" source="Squiz.Commenting.FunctionCommentThrowTag.Missing"/>
- <error line="20" column="5" severity="error" message="Visibility must be declared on method &quot;foo&quot;" source="Squiz.Scope.MethodScope.Missing"/>
- <error line="23" column="14" severity="error" message="A cast statement must not be followed by a space" source="Generic.Formatting.NoSpaceAfterCast.SpaceFound"/>
- <error line="25" column="9" severity="error" message="Empty IF statement detected" source="Generic.CodeAnalysis.EmptyStatement.DetectedIF"/>
- <error line="29" column="9" severity="error" message="Echoed strings should not be bracketed" source="Squiz.Strings.EchoedStrings.HasBracket"/>
- <error line="33" column="20" severity="error" message="Using a call-time pass-by-reference is deprecated since PHP 5.3 and prohibited since PHP 5.4" source="PHPCompatibility.PHP.ForbiddenCallTimePassByReference.NotAllowed"/>
+ <error line="6" column="1" severity="error" message="Each class must be in a namespace of at least one level (a top-level vendor name)" source="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
+ <error line="15" column="9" severity="error" message="The var keyword must not be used to declare a property" source="PSR2.Classes.PropertyDeclaration.VarUsed"/>
+ <error line="15" column="9" severity="error" message="Visibility must be declared on property &quot;$x&quot;" source="PSR2.Classes.PropertyDeclaration.ScopeMissing"/>
+ <error line="15" column="9" severity="error" message="Scope modifier not specified for member variable &quot;$x&quot;" source="Squiz.Scope.MemberVarScope.Missing"/>
+ <error line="22" column="6" severity="error" message="Missing @throws tag in function comment" source="Squiz.Commenting.FunctionCommentThrowTag.Missing"/>
+ <error line="23" column="5" severity="warning" message="The method parameter $bar is never used" source="Generic.CodeAnalysis.UnusedFunctionParameter.Found"/>
+ <error line="23" column="5" severity="error" message="Visibility must be declared on method &quot;foo&quot;" source="Squiz.Scope.MethodScope.Missing"/>
+ <error line="23" column="34" severity="error" message="Opening brace should be on a new line" source="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>
+ <error line="25" column="14" severity="error" message="A cast statement must not be followed by a space" source="Generic.Formatting.NoSpaceAfterCast.SpaceFound"/>
+ <error line="28" column="9" severity="error" message="Empty IF statement detected" source="Generic.CodeAnalysis.EmptyStatement.DetectedIF"/>
+ <error line="33" column="9" severity="warning" message="This FOR loop can be simplified to a WHILE loop" source="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop.CanSimplify"/>
+ <error line="33" column="9" severity="error" message="Empty FOR statement detected" source="Generic.CodeAnalysis.EmptyStatement.DetectedFOR"/>
+ <error line="33" column="9" severity="error" message="Space found before closing bracket of FOR loop" source="Squiz.ControlStructures.ForLoopDeclaration.SpacingBeforeClose"/>
+ <error line="40" column="9" severity="warning" message="Avoid function calls in a FOR loop test part" source="Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed"/>
+ <error line="45" column="9" severity="warning" message="Loop incrementor ($i) jumbling with inner loop" source="Generic.CodeAnalysis.JumbledIncrementer.Found"/>
+ <error line="52" column="9" severity="warning" message="Avoid IF statements that are always true or false" source="Generic.CodeAnalysis.UnconditionalIfStatement.Found"/>
+ <error line="52" column="9" severity="error" message="Empty IF statement detected" source="Generic.CodeAnalysis.EmptyStatement.DetectedIF"/>
+ <error line="57" column="9" severity="error" message="Echoed strings should not be bracketed" source="Squiz.Strings.EchoedStrings.HasBracket"/>
+ <error line="63" column="20" severity="error" message="Using a call-time pass-by-reference is deprecated since PHP 5.3 and prohibited since PHP 5.4" source="PHPCompatibility.PHP.ForbiddenCallTimePassByReference.NotAllowed"/>
+ <error line="66" column="1" severity="error" message="The closing brace for the class must go on the next line after the body" source="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody"/>
+ <error line="68" column="7" severity="error" message="Each class must be in a file by itself" source="PSR1.Classes.ClassDeclaration.MultipleClasses"/>
+ <error line="68" column="7" severity="error" message="Each class must be in a namespace of at least one level (a top-level vendor name)" source="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
+ <error line="72" column="5" severity="warning" message="Unnecessary FINAL modifier in FINAL class" source="Generic.CodeAnalysis.UnnecessaryFinalModifier.Found"/>
+ <error line="72" column="33" severity="error" message="Opening brace should be on a new line" source="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>
+ <error line="77" column="12" severity="warning" message="Possible useless method overriding detected" source="Generic.CodeAnalysis.UselessOverridingMethod.Found"/>
+ <error line="77" column="45" severity="error" message="Opening brace should be on a new line" source="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>
+ <error line="81" column="1" severity="error" message="The closing brace for the class must go on the next line after the body" source="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody"/>
 </file>
 </checkstyle>
 
