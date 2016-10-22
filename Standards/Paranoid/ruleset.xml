@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="ParanoidCodeSnifferStandard">
+<ruleset name="ParanoidStandard">
 	<description>Coding standard for PHP, which uses full PHPCompatibility and
 PSR-2 standards, some rules from Generic and Squiz standards.</description>
 

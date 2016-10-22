@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="ParanoidCodeSnifferStandard" default="build" basedir=".">
+<project name="ParanoidStandard" default="build" basedir=".">
 	<property name="build" value="tmp/build" />
 	<property name="unit_tests" value="${build}/unit_tests" />
 	<property name="phpcb" value="${build}/phpcb" />

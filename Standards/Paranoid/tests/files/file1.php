@@ -1,7 +1,11 @@
 <?php
+/**
+ *
+ */
+namespace ParanoidCheckstyleStandard;
 
 /**
- * Class to check the ParanoidCodeSnifferStandard CodeSniffer standard.
+ * Class to check the ParanoidStandard CodeSniffer standard.
  */
 class Foo
 {
@@ -30,8 +34,7 @@ class Foo
         }
 
         // Generic.CodeAnalysis.ForLoopShouldBeWhileLoop
-        for (; $x > 5;
-        ) {
+        for (; $x > 5;) {
 
         }
 
