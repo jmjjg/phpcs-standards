@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="Cake2CodesnifferParanoidPSR2">
-	<description>Coding standard for Cake2CodesnifferParanoid source code</description>
+<ruleset name="Cake2ParanoidPSR2">
+	<description>Coding standard for Cake2Paranoid source code</description>
 
 	<rule ref="../Paranoid">
 		<exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Cake2CodesnifferParanoid" default="build" basedir=".">
+<project name="Cake2Paranoid" default="build" basedir=".">
 	<property name="build" value="tmp/build" />
 	<property name="api" value="${build}/api" />
 	<property name="logs" value="${build}/logs" />

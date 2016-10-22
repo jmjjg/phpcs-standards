@@ -1,6 +1,6 @@
 {
   "name" : "jmjjg/phpcs-standards",
-  "description" : "Custom standards for PHP and CakePHP",
+  "description" : "Custom standards for PHP (Paranoid) and CakePHP (CakePHP 2.x.x)",
   "require" : {
     "php" : ">=5.3",
     "ext-tokenizer" : "*",
