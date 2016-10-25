@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<ruleset name="Cake2Paranoid">
-	<description>Ruleset for the Cake2Paranoid standard</description>
-
-	<!-- All rules in ./Sniffs are included automatically -->
-</ruleset>
