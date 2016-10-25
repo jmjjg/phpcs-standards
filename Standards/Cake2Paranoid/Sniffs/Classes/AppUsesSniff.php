@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Source code for the Cake2Paranoid_Sniffs_Classes_AppUsesSniff class.
  *
@@ -12,13 +13,18 @@
  *
  * Provides
  *   - Cake2Paranoid.Classes.AppUses.MissingParentClass
+ *   - Cake2Paranoid.Classes.AppUses.WrongType
  *
- * Cake2Paranoid.Classes.AppUses.MissingParentClass
- * Checks that every class in a CakePHP 2.x file has access to the parent
- * class, either directly or through an App::uses call (the type is not checked).
+ * Cake2Paranoid.Classes.AppUses.MissingParentClass checks that every class in a
+ * CakePHP 2.x file has access to the parent class, either directly or through
+ * an App::uses call.
+ *
+ * Cake2Paranoid.Classes.AppUses.WrongType checks that every type used in an
+ * App::uses call is correct by checking the $types attribute.
  */
 class Cake2Paranoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
 {
+
     /**
      * A list of currently available class names.
      * A first key is set for the file, a second key for the class name.
@@ -29,7 +35,55 @@ class Cake2Paranoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
      */
     protected $available = array();
 
-   /**
+    /**
+     * A list of accepted types for App::uses.
+     *
+     * @see CakePHP 2.x.x's list of directories.
+     *
+     * @var array
+     */
+    protected $types = array(
+        'Cache',
+        'Cache/Engine',
+        'Configure',
+        'Console',
+        'Console/Command',
+        'Console/Command/Task',
+        'Console/Helper',
+        'Controller',
+        'Controller/Component',
+        'Controller/Component/Acl',
+        'Controller/Component/Auth',
+        'Core',
+        'Error',
+        'Event',
+        'I18n',
+        'Log',
+        'Log/Engine',
+        'Model',
+        'Model/Behavior',
+        'Model/Datasource',
+        'Model/Datasource/Database',
+        'Model/Datasource/Session',
+        'Model/Validator',
+        'Network',
+        'Network/Email',
+        'Network/Http',
+        'Routing',
+        'Routing/Filter',
+        'Routing/Route',
+        'TestSuite',
+        'TestSuite/Coverage',
+        'TestSuite/Fixture',
+        'TestSuite/Reporter',
+        'TestSuite/Stub',
+        'Utility',
+        'View',
+        'View/Helper',
+        'View/Scaffolds',
+    );
+
+    /**
      * Initialise work with the current file.
      *
      * @param PHP_CodeSniffer_File $phpcsFile The current file being checked.
@@ -38,7 +92,7 @@ class Cake2Paranoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
     {
         $filename = $phpcsFile->getFilename();
         if (false === isset($this->available[$filename])) {
-            $this->available[$filename]  = array_merge(spl_classes(), array('Exception' => 'Exception'));
+            $this->available[$filename] = array_merge(spl_classes(), array('Exception' => 'Exception'));
         }
     }
 
@@ -75,7 +129,7 @@ class Cake2Paranoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
      */
     public function register()
     {
-        return array( T_CLASS, T_ABSTRACT, T_EXTENDS, T_STRING );
+        return array(T_CLASS, T_ABSTRACT, T_EXTENDS, T_STRING);
     }
 
     /**
@@ -124,8 +178,7 @@ class Cake2Paranoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
         $result = array();
         for ($ptr = $startPtr; $ptr <= $endPtr; $ptr++) {
             $blacklist = array_merge(
-                PHP_CodeSniffer_Tokens::$commentTokens,
-                PHP_CodeSniffer_Tokens::$emptyTokens
+                PHP_CodeSniffer_Tokens::$commentTokens, PHP_CodeSniffer_Tokens::$emptyTokens
             );
             if (false === in_array($tokens[$ptr]['code'], $blacklist)) {
                 $result[] = $tokens[$ptr]['content'];
@@ -137,7 +190,10 @@ class Cake2Paranoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
 
     /**
      * Process T_EXTENDS. Find the name of the extended class and check for
-     * availability. If the class is not currently available, add an error.
+     * availability.
+     *
+     * Adds the Cake2Paranoid.Classes.AppUses.MissingParentClass error if the
+     * class is not currently available
      *
      * @param PHP_CodeSniffer_File $phpcsFile The current file being checked.
      * @param int $stackPtr The stack position of the current T_EXTENDS token
@@ -178,6 +234,9 @@ class Cake2Paranoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
      * Process T_STRING. Try to get the name of a class that is loaded with
      * App::uses and add it to the available classes if found.
      *
+     * Adds the Cake2Paranoid.Classes.AppUses.WrongType error if type is not
+     * recognized.
+     *
      * @param PHP_CodeSniffer_File $phpcsFile The current file being checked.
      * @param int $stackPtr The stack position of the current T_STRING token.
      */
@@ -192,6 +251,16 @@ class Cake2Paranoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
             $regexp = '/App :: uses \( ["\'](?P<extended>[^"\']+)["\'] , ["\'](?P<type>[^"\']+)["\'] \)/i';
             if (1 === preg_match($regexp, $line, $matches)) {
                 $this->addAvailable($phpcsFile, $matches['extended']);
+
+                // Plugin split
+                $exploded = explode('.', $matches['type']);
+                $type = $exploded[count($exploded)-1];
+                if (false === in_array($type, $this->types)) {
+                    $message = sprintf('Wrong type for the App::uses call: \'%s\'', $type);
+                    $type = 'WrongType';
+
+                    $phpcsFile->addError($message, $stackPtr, $type);
+                }
             }
         }
     }
@@ -218,4 +287,5 @@ class Cake2Paranoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
             $this->processString($phpcsFile, $stackPtr);
         }
     }
+
 }

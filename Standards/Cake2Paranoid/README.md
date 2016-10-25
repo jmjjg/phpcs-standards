@@ -1,16 +1,21 @@
 # CakePHP 2.x.x CodeSniffer Standards
 
-- Cake2Paranoid/Classes/AppUses: checks that every extended class gets
-an App::uses call for it, except when extending previously defined classes in the
-file or classes defined by the SPL or the Exception class.
+## Cake2Paranoid/Classes/AppUsesSniff.php
 
-## Tests
+### Cake2Paranoid.Classes.AppUses.MissingParentClass
+
+Every class in a CakePHP 2.x file should have access to the parent class, either
+directly or through an App::uses call.
+
+### Cake2Paranoid.Classes.AppUses.WrongType
+
+Every type used in an App::uses call is correct by checking it on a list.
+
+## Build targets
 
 ```bash
 ant build
 ```
-
-## Quality
 
 ```bash
 ant quality
