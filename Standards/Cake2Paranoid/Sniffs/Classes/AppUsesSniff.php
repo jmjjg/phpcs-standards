@@ -7,8 +7,14 @@
  */
 
 /**
- * The Cake2Paranoid_Sniffs_Classes_AppUsesSniff class provides a sniff
- * for checking that every class in a CakePHP 2.x file has access to the parent
+ * The Cake2Paranoid_Sniffs_Classes_AppUsesSniff class provides sniffs for
+ * App::uses calls in a CakePHP 2.x.x application.
+ *
+ * Provides
+ *   - Cake2Paranoid.Classes.AppUses.MissingParentClass
+ *
+ * Cake2Paranoid.Classes.AppUses.MissingParentClass
+ * Checks that every class in a CakePHP 2.x file has access to the parent
  * class, either directly or through an App::uses call (the type is not checked).
  */
 class Cake2Paranoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
@@ -144,7 +150,7 @@ class Cake2Paranoid_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
         if (1 === preg_match($regexp, $line, $matches)) {
             if (true !== $this->isAvailable($phpcsFile, $matches['extended'])) {
                 $message = sprintf('Missing App::uses for extended class \'%s\'', $matches['extended']);
-                $type = 'ParentClass';
+                $type = 'MissingParentClass';
 
                 $phpcsFile->addError($message, $stackPtr, $type);
             }
