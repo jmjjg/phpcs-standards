@@ -1,0 +1,23 @@
+<documentation title="App Uses">
+    <standard>
+		When extending a class in CakePHP 2.x.x, always call App::uses for the
+		extended class beforehand.
+    </standard>
+    <code_comparison>
+        <code title="Valid: a call to App::uses for the extended class">
+        <![CDATA[
+<em>App::uses</em>('<em>AppModel</em>', 'Model');
+class User <em>extends</em> <em>AppModel</em>
+{
+}
+]]>
+        </code>
+        <code title="Invalid: no call to App::uses for the extended class">
+        <![CDATA[
+class User <em>extends</em> <em>AppModel</em>
+{
+}
+]]>
+        </code>
+    </code_comparison>
+</documentation>
