@@ -6,6 +6,7 @@
  * @author Christian Buffin
  * @license https://opensource.org/licenses/MIT MIT License
  */
+require_once dirname(dirname(__FILE__)).'/bootstrap.php';
 
 /**
  * The Cake2_Sniffs_Classes_AppUsesSniff class provides sniffs for
@@ -13,11 +14,15 @@
  *
  * Provides
  *   - Cake2.Classes.AppUses.MissingParentClass
+ *   - Cake2.Classes.AppUses.AlreadyImported
  *   - Cake2.Classes.AppUses.WrongType
  *
  * Cake2.Classes.AppUses.MissingParentClass checks that every class in a
  * CakePHP 2.x file has access to the parent class, either directly or through
  * an App::uses call.
+ *
+ * Cake2.Classes.AppUses.AlreadyImported Checks if the class has already been
+ * imported in the file (type-independant).
  *
  * Cake2.Classes.AppUses.WrongType checks that every type used in an
  * App::uses call is correct by checking the $types attribute.
@@ -34,6 +39,21 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
      * @var array
      */
     protected $available = array();
+
+    /**
+     * Holds a per-file connection between a class name and it's imports through
+     * App::uses (line, type, plugin).
+     *
+     * @var array
+     */
+    protected $classMap = array();
+
+    /**
+     * The regexp string that matches a normalized App::uses line.
+     *
+     * @var string
+     */
+    protected static $appUsesRegexp = '/App :: uses \( ["\'](?P<extended>[^"\']+)["\'] , ["\'](?P<type>[^"\']+)["\'] \)/i';
 
     /**
      * A list of accepted types for App::uses.
@@ -88,7 +108,7 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
      *
      * @param PHP_CodeSniffer_File $phpcsFile The current file being checked.
      */
-    protected function init(PHP_CodeSniffer_File $phpcsFile)
+    protected function initProcess(PHP_CodeSniffer_File $phpcsFile)
     {
         $filename = $phpcsFile->getFilename();
         if (false === isset($this->available[$filename])) {
@@ -206,9 +226,9 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
         if (1 === preg_match($regexp, $line, $matches)) {
             if (true !== $this->isAvailable($phpcsFile, $matches['extended'])) {
                 $message = sprintf('Missing App::uses for extended class \'%s\'', $matches['extended']);
-                $type = 'MissingParentClass';
+                $messageType = 'MissingParentClass';
 
-                $phpcsFile->addError($message, $stackPtr, $type);
+                $phpcsFile->addError($message, $stackPtr, $messageType);
             }
         }
     }
@@ -231,11 +251,56 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
     }
 
     /**
-     * Process T_STRING. Try to get the name of a class that is loaded with
-     * App::uses and add it to the available classes if found.
+     * Process a line where an App::uses call has been made.
      *
      * Adds the Cake2.Classes.AppUses.WrongType error if type is not
-     * recognized.
+     * recognized and the Cake2.Classes.AppUses.AlreadyImported error if the
+     * class has already been imported in the file.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile The current file being checked.
+     * @param int $stackPtr The stack position of the current T_STRING token
+     *  containing 'App'.
+     * @param string $line
+     */
+    protected function processAppUses(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $line)
+    {
+        $tokens = $phpcsFile->getTokens();
+        $token = $tokens[$stackPtr];
+
+        if (1 === preg_match(self::$appUsesRegexp, $line, $matches)) {
+            $this->addAvailable($phpcsFile, $matches['extended']);
+
+            // Check available types (plugin split)
+            list($plugin, $type) = pluginSplit($matches['type']);
+
+            if (false === in_array($type, $this->types)) {
+                $message = sprintf('Wrong type for the App::uses call: \'%s\'', $type);
+                $messageType = 'WrongType';
+
+                $phpcsFile->addError($message, $stackPtr, $messageType);
+            }
+
+            // Add to classMap, check if already defined
+            $filename = $phpcsFile->getFilename();
+            if (true === isset($this->classMap[$filename][$matches['extended']]))
+            {
+                $first = $this->classMap[$filename][$matches['extended']][0];
+                $message = sprintf('Class \'%s\' was already imported on line %d', $matches['extended'], $first['line']);
+                $messageType = 'AlreadyImported';
+
+                $phpcsFile->addError($message, $stackPtr, $messageType);
+            }
+            $this->classMap[$filename][$matches['extended']][] = array(
+                'plugin' => $plugin,
+                'type' => $type,
+                'line' => $token['line']
+            );
+        }
+    }
+
+    /**
+     * Process T_STRING. Try to get the name of a class that is loaded with
+     * App::uses and processes it if found.
      *
      * @param PHP_CodeSniffer_File $phpcsFile The current file being checked.
      * @param int $stackPtr The stack position of the current T_STRING token.
@@ -248,19 +313,8 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
         if ('app' === strtolower($token['content']) && array() === $token['conditions']) {
             $line = $this->getNormalizedLogicalLine($phpcsFile, $stackPtr);
 
-            $regexp = '/App :: uses \( ["\'](?P<extended>[^"\']+)["\'] , ["\'](?P<type>[^"\']+)["\'] \)/i';
-            if (1 === preg_match($regexp, $line, $matches)) {
-                $this->addAvailable($phpcsFile, $matches['extended']);
-
-                // Plugin split
-                $exploded = explode('.', $matches['type']);
-                $type = $exploded[count($exploded)-1];
-                if (false === in_array($type, $this->types)) {
-                    $message = sprintf('Wrong type for the App::uses call: \'%s\'', $type);
-                    $type = 'WrongType';
-
-                    $phpcsFile->addError($message, $stackPtr, $type);
-                }
+            if (1 === preg_match(self::$appUsesRegexp, $line)) {
+                $this->processAppUses($phpcsFile, $stackPtr, $line);
             }
         }
     }
@@ -274,7 +328,7 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $this->init($phpcsFile);
+        $this->initProcess($phpcsFile);
 
         $tokens = $phpcsFile->getTokens();
         $token = $tokens[$stackPtr];

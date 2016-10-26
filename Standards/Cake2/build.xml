@@ -36,8 +36,8 @@
 	</target>
 
 	<target name="unit_tests" depends="clean">
-		<property name="result" value="${unit_tests}/cake2.xml" />
-		<property name="expected" value="tests/expected/cake2.xml" />
+		<property name="result" value="${unit_tests}/Cake2.xml" />
+		<property name="expected" value="tests/expected/Cake2.xml" />
 
 		<exec executable="phpcs" failonerror="false">
 			<arg line="--standard=${basedir}/ruleset.xml

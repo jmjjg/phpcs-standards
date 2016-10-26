@@ -7,6 +7,10 @@
 Every class in a CakePHP 2.x file should have access to the parent class, either
 directly or through an App::uses call.
 
+### Cake2.Classes.AppUses.AlreadyImported
+
+Checks if the class has already been imported in the file (type-independant).
+
 ### Cake2.Classes.AppUses.WrongType
 
 Every type used in an App::uses call is correct by checking it on a list.
