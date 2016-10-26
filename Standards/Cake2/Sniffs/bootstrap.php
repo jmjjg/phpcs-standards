@@ -42,12 +42,11 @@ HTML;
 
 TEXT;
 
-    $showHtml = false !== $showHtml;
     $var = var_export($var, true);
-    if (PHP_SAPI === 'cli' || $showHtml === false) {
+    if (PHP_SAPI === 'cli' || false === $showHtml) {
         $template = $text;
         $lineInfo = sprintf('%s (line %s)', $file, $line);
-    } else {
+    } elseif(false !== $showHtml) {
         $template = $html;
         $var = htmlentities($var);
         $lineInfo = sprintf('<span><strong>%s</strong> (line <strong>%s</strong>)</span>', $file, $line);

@@ -53,7 +53,7 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
      *
      * @var string
      */
-    protected static $appUsesRegexp = '/App :: uses \( ["\'](?P<extended>[^"\']+)["\'] , ["\'](?P<type>[^"\']+)["\'] \)/i';
+    const REGEXP_APP_USES = '/App :: uses \( ["\'](?P<extended>[^"\']+)["\'] , ["\'](?P<type>[^"\']+)["\'] \)/i';
 
     /**
      * A list of accepted types for App::uses.
@@ -267,7 +267,7 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
         $tokens = $phpcsFile->getTokens();
         $token = $tokens[$stackPtr];
 
-        if (1 === preg_match(self::$appUsesRegexp, $line, $matches)) {
+        if (1 === preg_match(self::REGEXP_APP_USES, $line, $matches)) {
             $this->addAvailable($phpcsFile, $matches['extended']);
 
             // Check available types (plugin split)
@@ -313,7 +313,7 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
         if ('app' === strtolower($token['content']) && array() === $token['conditions']) {
             $line = $this->getNormalizedLogicalLine($phpcsFile, $stackPtr);
 
-            if (1 === preg_match(self::$appUsesRegexp, $line)) {
+            if (1 === preg_match(self::REGEXP_APP_USES, $line)) {
                 $this->processAppUses($phpcsFile, $stackPtr, $line);
             }
         }
