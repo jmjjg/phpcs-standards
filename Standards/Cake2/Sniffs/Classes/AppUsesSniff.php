@@ -49,11 +49,18 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
     protected $classMap = array();
 
     /**
-     * The regexp string that matches a normalized App::uses line.
+     * The regexp strings that matches various normalized lines:
+     *  - APP_USES: App::uses('modelname', 'type')
+     *  - CLASS: class Classname
+     *  - EXTENDS: class Classname extends ParentClass
      *
      * @var string
      */
-    const REGEXP_APP_USES = '/App :: uses \( ["\'](?P<extended>[^"\']+)["\'] , ["\'](?P<type>[^"\']+)["\'] \)/i';
+    protected $regexps = array(
+        'APP_USES' => '/App :: uses \( ["\'](?P<extended>[^"\']+)["\'] , ["\'](?P<type>[^"\']+)["\'] \)/i',
+        'CLASS' => '/((abstract|final) ){0,1}class (?P<class>[^ ]+)/i',
+        'EXTENDS' => '/((abstract|final) ){0,1}class (?P<class>[^ ]+) extends (?P<extended>[^ ]+)/i'
+    );
 
     /**
      * A list of accepted types for App::uses.
@@ -102,19 +109,6 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
         'View/Helper',
         'View/Scaffolds',
     );
-
-    /**
-     * Initialise work with the current file.
-     *
-     * @param PHP_CodeSniffer_File $phpcsFile The current file being checked.
-     */
-    protected function initProcess(PHP_CodeSniffer_File $phpcsFile)
-    {
-        $filename = $phpcsFile->getFilename();
-        if (false === isset($this->available[$filename])) {
-            $this->available[$filename] = array_merge(spl_classes(), array('Exception' => 'Exception'));
-        }
-    }
 
     /**
      * Checks the class name current availibility in a file.
@@ -196,10 +190,13 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
 
         $tokens = $phpcsFile->getTokens();
         $result = array();
+
+        $blacklist = array_merge(
+            PHP_CodeSniffer_Tokens::$commentTokens,
+            PHP_CodeSniffer_Tokens::$emptyTokens
+        );
+
         for ($ptr = $startPtr; $ptr <= $endPtr; $ptr++) {
-            $blacklist = array_merge(
-                PHP_CodeSniffer_Tokens::$commentTokens, PHP_CodeSniffer_Tokens::$emptyTokens
-            );
             if (false === in_array($tokens[$ptr]['code'], $blacklist)) {
                 $result[] = $tokens[$ptr]['content'];
             }
@@ -221,9 +218,8 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
     protected function processExtends(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $line = $this->getNormalizedLogicalLine($phpcsFile, $stackPtr);
-        $regexp = '/((abstract|final) ){0,1}class (?P<class>[^ ]+) extends (?P<extended>[^ ]+)/i';
 
-        if (1 === preg_match($regexp, $line, $matches)) {
+        if (1 === preg_match($this->regexps['EXTENDS'], $line, $matches)) {
             if (true !== $this->isAvailable($phpcsFile, $matches['extended'])) {
                 $message = sprintf('Missing App::uses for extended class \'%s\'', $matches['extended']);
                 $messageType = 'MissingParentClass';
@@ -243,9 +239,8 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
     protected function processClass(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $line = $this->getNormalizedLogicalLine($phpcsFile, $stackPtr);
-        $regexp = '/((abstract|final) ){0,1}class (?P<class>[^ ]+)/i';
 
-        if (1 === preg_match($regexp, $line, $matches)) {
+        if (1 === preg_match($this->regexps['CLASS'], $line, $matches)) {
             $this->addAvailable($phpcsFile, $matches['class']);
         }
     }
@@ -267,7 +262,7 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
         $tokens = $phpcsFile->getTokens();
         $token = $tokens[$stackPtr];
 
-        if (1 === preg_match(self::REGEXP_APP_USES, $line, $matches)) {
+        if (1 === preg_match($this->regexps['APP_USES'], $line, $matches)) {
             $this->addAvailable($phpcsFile, $matches['extended']);
 
             // Check available types (plugin split)
@@ -313,7 +308,7 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
         if ('app' === strtolower($token['content']) && array() === $token['conditions']) {
             $line = $this->getNormalizedLogicalLine($phpcsFile, $stackPtr);
 
-            if (1 === preg_match(self::REGEXP_APP_USES, $line)) {
+            if (1 === preg_match($this->regexps['APP_USES'], $line)) {
                 $this->processAppUses($phpcsFile, $stackPtr, $line);
             }
         }
@@ -328,7 +323,13 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $this->initProcess($phpcsFile);
+        $filename = $phpcsFile->getFilename();
+        if (false === isset($this->available[$filename])) {
+            $this->available[$filename] = array_merge(
+                spl_classes(),
+                array('Exception' => 'Exception')
+            );
+        }
 
         $tokens = $phpcsFile->getTokens();
         $token = $tokens[$stackPtr];
