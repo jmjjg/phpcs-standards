@@ -14,6 +14,7 @@ define('ROOT', dirname(dirname(__FILE__)) . '/');
  * CakePHP's debug basic function adaptation from CakePHP 2.9.0
  *
  * @param mixed $var Variable to show debug information for.
+ * @param boolean $showHtml Whether to debug in HTML or console mode (null for auto).
  * @return void
  * @see http://book.cakephp.org/2.0/en/development/debugging.html#basic-debugging
  * @see http://book.cakephp.org/2.0/en/core-libraries/global-constants-and-functions.html#debug
