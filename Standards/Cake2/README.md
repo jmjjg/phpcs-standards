@@ -9,7 +9,11 @@ directly or through an App::uses call.
 
 ### Cake2.Classes.AppUses.AlreadyImported
 
-Checks if the class has already been imported in the file (type-independant).
+Checks if the class has already been imported in the file.
+
+### Cake2.Classes.AppUses.AlreadyImportedDifferent
+
+Checks if the class has already been imported in the file, type and plugin dependant.
 
 ### Cake2.Classes.AppUses.WrongType
 

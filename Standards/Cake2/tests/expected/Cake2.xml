@@ -17,8 +17,12 @@
  <error line="21" column="42" severity="error" message="Missing App::uses for extended class 'AppUsesFinalMissing5'" source="Cake2.Classes.AppUses.MissingParentClass"/>
 </file>
 <file name="tests/files/AppUsesAlreadyImported.php">
- <error line="6" column="1" severity="error" message="Class 'AppModel' was already imported on line 5" source="Cake2.Classes.AppUses.AlreadyImported"/>
- <error line="7" column="1" severity="error" message="Class 'AppModel' was already imported on line 5" source="Cake2.Classes.AppUses.AlreadyImported"/>
+ <error line="6" column="1" severity="warning" message="Class 'AppModel' was first imported on line 5" source="Cake2.Classes.AppUses.AlreadyImported"/>
+ <error line="7" column="1" severity="warning" message="Class 'AppModel' was first imported on line 5" source="Cake2.Classes.AppUses.AlreadyImported"/>
+</file>
+<file name="tests/files/AppUsesWrongTypeDifferent1.php">
+ <error line="6" column="1" severity="error" message="Class 'AbstractAppUsesWrongTypeDifferent1Component' was first imported on line 5 with a different type or plugin ('Plugin.Controller/Component')" source="Cake2.Classes.AppUses.AlreadyImportedDifferent"/>
+ <error line="7" column="1" severity="error" message="Class 'AbstractAppUsesWrongTypeDifferent1Component' was first imported on line 5 with a different type or plugin ('Controller')" source="Cake2.Classes.AppUses.AlreadyImportedDifferent"/>
 </file>
 </checkstyle>
 

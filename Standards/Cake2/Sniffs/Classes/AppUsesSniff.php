@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Source code for the Cake2_Sniffs_Classes_AppUsesSniff class.
  *
@@ -15,6 +14,7 @@ require_once dirname(dirname(__FILE__)).'/bootstrap.php';
  * Provides
  *   - Cake2.Classes.AppUses.MissingParentClass
  *   - Cake2.Classes.AppUses.AlreadyImported
+ *   - Cake2.Classes.AppUses.AlreadyImportedDifferent
  *   - Cake2.Classes.AppUses.WrongType
  *
  * Cake2.Classes.AppUses.MissingParentClass checks that every class in a
@@ -23,6 +23,9 @@ require_once dirname(dirname(__FILE__)).'/bootstrap.php';
  *
  * Cake2.Classes.AppUses.AlreadyImported Checks if the class has already been
  * imported in the file (type-independant).
+ *
+ * Cake2.Classes.AppUses.AlreadyImportedDifferent Checks if the class has already
+ * been imported in the file, type and plugin dependant.
  *
  * Cake2.Classes.AppUses.WrongType checks that every type used in an
  * App::uses call is correct by checking the $types attribute.
@@ -54,7 +57,7 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
      *  - CLASS: class Classname
      *  - EXTENDS: class Classname extends ParentClass
      *
-     * @var string
+     * @var array
      */
     protected $regexps = array(
         'APP_USES' => '/App :: uses \( ["\'](?P<extended>[^"\']+)["\'] , ["\'](?P<type>[^"\']+)["\'] \)/i',
@@ -249,8 +252,10 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
      * Process a line where an App::uses call has been made.
      *
      * Adds the Cake2.Classes.AppUses.WrongType error if type is not
-     * recognized and the Cake2.Classes.AppUses.AlreadyImported error if the
-     * class has already been imported in the file.
+     * recognized, the Cake2.Classes.AppUses.AlreadyImported warning if the
+     * class has already been imported in the file or the
+     * Cake2.Classes.AppUses.AlreadyImportedDifferent error if the class has
+     * already been imported with a different type or plugin.
      *
      * @param PHP_CodeSniffer_File $phpcsFile The current file being checked.
      * @param int $stackPtr The stack position of the current T_STRING token
@@ -280,10 +285,21 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
             if (true === isset($this->classMap[$filename][$matches['extended']]))
             {
                 $first = $this->classMap[$filename][$matches['extended']][0];
-                $message = sprintf('Class \'%s\' was already imported on line %d', $matches['extended'], $first['line']);
-                $messageType = 'AlreadyImported';
 
-                $phpcsFile->addError($message, $stackPtr, $messageType);
+                if ($first['plugin'] !== $plugin || $first['type'] !== $type) {
+                    $message = sprintf(
+                        'Class \'%s\' was first imported on line %d with a different type or plugin (\'%s\')',
+                        $matches['extended'],
+                        $first['line'],
+                        null !== $plugin ? $plugin.'.'.$type : $type
+                    );
+                    $messageType = 'AlreadyImportedDifferent';
+                    $phpcsFile->addError($message, $stackPtr, $messageType);
+                } else {
+                    $message = sprintf('Class \'%s\' was first imported on line %d', $matches['extended'], $first['line']);
+                    $messageType = 'AlreadyImported';
+                    $phpcsFile->addWarning($message, $stackPtr, $messageType);
+                }
             }
             $this->classMap[$filename][$matches['extended']][] = array(
                 'plugin' => $plugin,
