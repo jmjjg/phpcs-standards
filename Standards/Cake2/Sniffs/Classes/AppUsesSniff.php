@@ -17,18 +17,18 @@ require_once dirname(dirname(__FILE__)).'/bootstrap.php';
  *   - Cake2.Classes.AppUses.AlreadyImportedDifferent
  *   - Cake2.Classes.AppUses.WrongType
  *
- * Cake2.Classes.AppUses.MissingParentClass checks that every class in a
- * CakePHP 2.x file has access to the parent class, either directly or through
+ * Cake2.Classes.AppUses.MissingParentClass error is given for every class that
+ * extends a class that is not accessible, either directly directly or through
  * an App::uses call.
  *
- * Cake2.Classes.AppUses.AlreadyImported Checks if the class has already been
- * imported in the file (type-independant).
+ * Cake2.Classes.AppUses.AlreadyImported warning is given for every class that is
+ * imported more than once in the file (with the same type and plugin).
  *
- * Cake2.Classes.AppUses.AlreadyImportedDifferent Checks if the class has already
- * been imported in the file, type and plugin dependant.
+ * Cake2.Classes.AppUses.AlreadyImportedDifferent error is given for every class
+ * that is imported more than once in the file (with a different type or plugin).
  *
- * Cake2.Classes.AppUses.WrongType checks that every type used in an
- * App::uses call is correct by checking the $types attribute.
+ * Cake2.Classes.AppUses.WrongType error is given for every unknown type used in
+ * an App::uses call.
  */
 class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
 {
@@ -212,8 +212,7 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
      * Process T_EXTENDS. Find the name of the extended class and check for
      * availability.
      *
-     * Adds the Cake2.Classes.AppUses.MissingParentClass error if the
-     * class is not currently available
+     * May add the Cake2.Classes.AppUses.MissingParentClass error.
      *
      * @param PHP_CodeSniffer_File $phpcsFile The current file being checked.
      * @param int $stackPtr The stack position of the current T_EXTENDS token
@@ -251,11 +250,9 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
     /**
      * Process a line where an App::uses call has been made.
      *
-     * Adds the Cake2.Classes.AppUses.WrongType error if type is not
-     * recognized, the Cake2.Classes.AppUses.AlreadyImported warning if the
-     * class has already been imported in the file or the
-     * Cake2.Classes.AppUses.AlreadyImportedDifferent error if the class has
-     * already been imported with a different type or plugin.
+     * May add the Cake2.Classes.AppUses.WrongType error, the
+     * Cake2.Classes.AppUses.AlreadyImported warning or the
+     * Cake2.Classes.AppUses.AlreadyImportedDifferent error.
      *
      * @param PHP_CodeSniffer_File $phpcsFile The current file being checked.
      * @param int $stackPtr The stack position of the current T_STRING token

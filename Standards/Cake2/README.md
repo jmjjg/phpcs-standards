@@ -4,20 +4,22 @@
 
 ### Cake2.Classes.AppUses.MissingParentClass
 
-Every class in a CakePHP 2.x file should have access to the parent class, either
-directly or through an App::uses call.
+This error is given for every class that extends a class that is not accessible,
+either directly directly or through an App::uses call.
 
 ### Cake2.Classes.AppUses.AlreadyImported
 
-Checks if the class has already been imported in the file.
+This warning is given for every class that is imported more than once in the
+file (with the same type and plugin).
 
 ### Cake2.Classes.AppUses.AlreadyImportedDifferent
 
-Checks if the class has already been imported in the file, type and plugin dependant.
+This warning is given for every class that is imported more than once in the
+file (with a different type or plugin).
 
 ### Cake2.Classes.AppUses.WrongType
 
-Every type used in an App::uses call is correct by checking it on a list.
+This error is given for every unknown type used in an App::uses call.
 
 ## Build targets
 
