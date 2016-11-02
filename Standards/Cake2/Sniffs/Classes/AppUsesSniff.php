@@ -43,6 +43,60 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
      */
     protected $available = array();
 
+
+    /**
+     * A list of classes provided by a basic CakePHP 2.x.x install.
+     *
+     * @see lib/Cake/bootstrap.php
+     *
+     * @var array
+     */
+    protected $availableCake2 = array(
+        'AclException',
+        'App',
+        'BadRequestException',
+        'CacheException',
+        'CakeBaseException',
+        'CakeException',
+        'CakeLogException',
+        'CakeSessionException',
+        'Configure',
+        'ConfigureException',
+        'ConsoleException',
+        'FatalErrorException',
+        'ForbiddenException',
+        'Hash',
+        'HttpException',
+        'InternalErrorException',
+        'MethodNotAllowedException',
+        'MissingActionException',
+        'MissingBehaviorException',
+        'MissingComponentException',
+        'MissingConnectionException',
+        'MissingControllerException',
+        'MissingDatabaseException',
+        'MissingDatasourceConfigException',
+        'MissingDatasourceException',
+        'MissingDispatcherFilterException',
+        'MissingHelperException',
+        'MissingLayoutException',
+        'MissingModelException',
+        'MissingPluginException',
+        'MissingShellException',
+        'MissingShellMethodException',
+        'MissingTableException',
+        'MissingTaskException',
+        'MissingTestLoaderException',
+        'MissingViewException',
+        'NotFoundException',
+        'NotImplementedException',
+        'PrivateActionException',
+        'RouterException',
+        'SocketException',
+        'UnauthorizedException',
+        'XmlException'
+    );
+
     /**
      * Holds a per-file connection between a class name and it's imports through
      * App::uses (line, type, plugin).
@@ -340,7 +394,8 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
         if (false === isset($this->available[$filename])) {
             $this->available[$filename] = array_merge(
                 spl_classes(),
-                array('Exception' => 'Exception')
+                array('Exception' => 'Exception'),
+                array_combine($this->availableCake2, $this->availableCake2)
             );
         }
 
