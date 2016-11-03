@@ -324,7 +324,7 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
             list($plugin, $type) = pluginSplit($matches['type']);
 
             if (false === in_array($type, $this->types)) {
-                $message = sprintf('Wrong type for the App::uses call: \'%s\'', $type);
+                $message = sprintf('Wrong type for the App::uses call: \'%s\'', $matches['type']);
                 $messageType = 'WrongType';
 
                 $phpcsFile->addError($message, $stackPtr, $messageType);
@@ -341,7 +341,7 @@ class Cake2_Sniffs_Classes_AppUsesSniff implements PHP_CodeSniffer_Sniff
                         'Class \'%s\' was first imported on line %d with a different type or plugin (\'%s\')',
                         $matches['extended'],
                         $first['line'],
-                        null !== $plugin ? $plugin.'.'.$type : $type
+                        $matches['type']
                     );
                     $messageType = 'AlreadyImportedDifferent';
                     $phpcsFile->addError($message, $stackPtr, $messageType);

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="Cake2">
+	<description>PHPCS ruleset for the Cake2 standard unit tests</description>
+
+	<rule ref="../ruleset.xml" />
+
+	<rule ref="Cake2.Classes.AppUses">
+		<properties>
+			<!-- Extra classes available in every file -->
+			<property name="extraAvailable" type="array" value="ExtraAvailable1,ExtraAvailable1Component"/>
+			<!-- Extra known types -->
+			<property name="extraTypes" type="array" value="ExtraType1"/>
+		</properties>
+	</rule>
+</ruleset>

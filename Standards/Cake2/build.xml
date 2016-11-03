@@ -40,7 +40,7 @@
 		<property name="expected" value="tests/expected/Cake2.xml" />
 
 		<exec executable="phpcs" failonerror="false">
-			<arg line="--standard=${basedir}/ruleset.xml
+			<arg line="--standard=${basedir}/tests/ruleset.xml
 					   --report-checkstyle=${result}
                        ${basedir}/tests/files/"
 			/>
