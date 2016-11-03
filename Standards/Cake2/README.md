@@ -2,6 +2,23 @@
 
 ## Cake2/Classes/AppUsesSniff.php
 
+### Configuration
+
+```xml
+<ruleset name="...">
+	<!-- ... -->
+	<rule ref="Cake2.Classes.AppUses">
+		<properties>
+			<!-- Extra classes available in every file -->
+			<property name="extraAvailable" type="array" value=""/>
+			<!-- Extra known types -->
+			<property name="extraTypes" type="array" value=""/>
+		</properties>
+	</rule>
+	<!-- ... -->
+</ruleset>
+```
+
 ### Cake2.Classes.AppUses.MissingParentClass
 
 This error is given for every class that extends a class that is not accessible,
