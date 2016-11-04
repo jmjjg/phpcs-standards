@@ -78,7 +78,7 @@
 		<exec executable="phpmd" failonerror="false">
 			<arg line="Sniffs
                        xml
-                       cleancode,codesize,design,naming,unusedcode
+                       phpmd.xml
 					   --exclude */tests/files/*,*/tmp/*
                        --suffixes=.php
                        --reportfile ${logs}/phpmd.xml" />
