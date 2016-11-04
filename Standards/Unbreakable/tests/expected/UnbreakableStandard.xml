@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="2.x.x">
+<file name="tests/files/file2.php">
+ <error line="11" column="5" severity="warning" message="Unnecessary FINAL modifier in FINAL class" source="Generic.CodeAnalysis.UnnecessaryFinalModifier.Found"/>
+ <error line="25" column="12" severity="error" message="PHP4 style constructors are not allowed; use &quot;__construct()&quot; instead" source="Generic.NamingConventions.ConstructorName.OldStyle"/>
+ <error line="28" column="19" severity="error" message="Use of the backtick operator is forbidden" source="Generic.PHP.BacktickOperator.Found"/>
+ <error line="28" column="26" severity="error" message="Use of the backtick operator is forbidden" source="Generic.PHP.BacktickOperator.Found"/>
+ <error line="31" column="16" severity="error" message="The use of function sizeof() is forbidden; use count() instead" source="Generic.PHP.ForbiddenFunctions.FoundWithAlternative"/>
+ <error line="34" column="16" severity="error" message="The use of function split is discouraged from PHP version 5.3 and forbidden from PHP version 7.0; use preg_split instead" source="PHPCompatibility.PHP.DeprecatedFunctions"/>
+</file>
+<file name="tests/files/file3.php">
+ <error line="9" column="1" severity="error" message="&quot;require&quot; is a statement not a function; no parentheses are required" source="PEAR.Files.IncludingFile.BracketsNotRequired"/>
+ <error line="12" column="1" severity="error" message="File is being unconditionally included; use &quot;require&quot; instead" source="PEAR.Files.IncludingFile.UseRequire"/>
+ <error line="20" column="9" severity="error" message="Visibility must be declared on property &quot;$var&quot;" source="PSR2.Classes.PropertyDeclaration.ScopeMissing"/>
+ <error line="23" column="5" severity="error" message="Visibility must be declared on method &quot;foo&quot;" source="Squiz.Scope.MethodScope.Missing"/>
+ <error line="26" column="9" severity="error" message="Echoed strings should not be bracketed" source="Squiz.Strings.EchoedStrings.HasBracket"/>
+ <error line="29" column="20" severity="error" message="Using a call-time pass-by-reference is deprecated since PHP 5.3 and prohibited since PHP 5.4" source="PHPCompatibility.PHP.ForbiddenCallTimePassByReference.NotAllowed"/>
+ <error line="33" column="15" severity="error" message="The final declaration must precede the visibility declaration" source="PSR2.Methods.MethodDeclaration.FinalAfterVisibility"/>
+ <error line="43" column="16" severity="error" message="Usage of &quot;$this&quot; in static methods will cause runtime errors" source="Squiz.Scope.StaticThisUsage.Found"/>
+ <error line="46" column="13" severity="warning" message="Silencing errors is discouraged" source="Generic.PHP.NoSilencedErrors.Discouraged"/>
+ <error line="51" column="13" severity="error" message="Use the PHP_SAPI constant instead of calling php_sapi_name()" source="Generic.PHP.SAPIUsage.FunctionFound"/>
+</file>
+<file name="tests/files/file4.php">
+ <error line="1" column="1" severity="warning" message="Possible use of ASP style opening tags detected. ASP style opening tags have been removed in PHP 7.0. Found: &lt;%" source="PHPCompatibility.PHP.RemovedAlternativePHPTags.MaybeASPOpenTagFound"/>
+ <error line="1" column="1" severity="warning" message="No PHP code was found in this file and short open tags are not allowed by this install of PHP. This file may be using short open tags but PHP does not allow them." source="Internal.NoCodeFound"/>
+</file>
+<file name="tests/files/file5.php">
+ <error line="2" column="1" severity="error" message="Short PHP opening tag used with echo; expected &quot;&lt;?php echo 5 ...&quot; but found &quot;&lt;?= 5 ...&quot;" source="Generic.PHP.DisallowShortOpenTag.EchoFound"/>
+ <error line="6" column="1" severity="warning" message="Possible use of ASP style opening tags detected. ASP style opening tags have been removed in PHP 7.0. Found: &lt;% echo 5;%&gt;" source="PHPCompatibility.PHP.RemovedAlternativePHPTags.MaybeASPOpenTagFound"/>
+</file>
+</checkstyle>
+

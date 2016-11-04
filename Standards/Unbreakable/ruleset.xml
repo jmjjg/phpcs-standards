@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<ruleset name="UnbreakableStandard">
+	<description>Coding standard for PHP, which uses PHPCompatibility and some
+	other hand-picked sniffs.</description>
+	<!--Internal.NoCodeFound-->
+
+	<rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier.Found"/>
+	<rule ref="Generic.NamingConventions.ConstructorName.OldStyle"/>
+	<!-- Alrady covered by PHPCompatibility.PHP.DeprecatedFunctions -->
+	<!--<rule ref="Generic.PHP.DeprecatedFunctions"/>-->
+	<rule ref="Generic.PHP.DisallowAlternativePHPTags">
+		<exclude name="Generic.PHP.DisallowAlternativePHPTags.MaybeASPOpenTagFound"/>
+	</rule>
+	<rule ref="Generic.PHP.DisallowShortOpenTag" />
+	<rule ref="Generic.PHP.ForbiddenFunctions"/>
+	<rule ref="Generic.PHP.BacktickOperator"/>
+
+	<rule ref="PHPCompatibility">
+		<!-- Already covered by PSR2.Classes.PropertyDeclaration.ScopeMissing -->
+		<exclude name="PSR2.Classes.PropertyDeclaration.VarUsed" />
+	</rule>
+
+	<rule ref="Squiz.Scope.StaticThisUsage"/>
+	<rule ref="Squiz.Strings.EchoedStrings.HasBracket"/>
+	<rule ref="Generic.PHP.NoSilencedErrors.Discouraged"/>
+	<rule ref="Generic.PHP.SAPIUsage"/>
+
+	<rule ref="PEAR.Files.IncludingFile"/>
+
+	<!-- =======================================================================
+		Cherry picking from PSR2
+	======================================================================== -->
+
+	<!-- 4. Classes, Properties, and Methods -->
+
+	<!-- 4.2. Properties -->
+
+	<!-- Visibility MUST be declared on all properties. -->
+	<rule ref="PSR2.Classes.PropertyDeclaration.ScopeMissing"/>
+	<!-- There MUST NOT be more than one property declared per statement. -->
+	<rule ref="PSR2.Classes.PropertyDeclaration.Multiple"/>
+
+	<!-- 4.3 Methods -->
+
+	<!-- Visibility MUST be declared on all methods. -->
+	<rule ref="Squiz.Scope.MethodScope"/>
+
+	<!-- 4.4 Method Arguments -->
+
+	<!-- Method arguments with default values MUST go at the end of the argument list. -->
+	<rule ref="PEAR.Functions.ValidDefaultValue"/>
+
+	<!-- 4.5 abstract, final, and static -->
+
+	<!-- When present, the abstract and final declarations MUST precede the visibility declaration.
+	When present, the static declaration MUST come after the visibility declaration. -->
+	<rule ref="PSR2.Methods.MethodDeclaration"/>
+</ruleset>
